@@ -1,6 +1,11 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
+import 'bmi_result_screen.dart';
+
 class BMiScreen extends StatefulWidget {
+  const BMiScreen({super.key});
+
   @override
   State<StatefulWidget> createState() => _BMiScreen();
 }
@@ -13,9 +18,9 @@ class _BMiScreen extends State<BMiScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 15, 47, 72),
+      backgroundColor: const Color.fromARGB(255, 15, 47, 72),
       appBar: AppBar(
-        title: Center(child: const Text("BMI CAlCULATOR")),
+        title: const Center(child: Text("BMI CAlCULATOR")),
         backgroundColor: Colors.black,
       ),
       body: Column(
@@ -35,8 +40,8 @@ class _BMiScreen extends State<BMiScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
                         color: isMale
-                            ? Color.fromARGB(255, 236, 232, 232)
-                            : Colors.grey.withOpacity(0.4),
+                            ? const Color.fromARGB(255, 236, 232, 232)
+                            : Colors.grey.withOpacity(0.2),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -71,8 +76,8 @@ class _BMiScreen extends State<BMiScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
                         color: !isMale
-                            ? Color.fromARGB(255, 236, 232, 232)
-                            : Colors.grey.withOpacity(0.4),
+                            ? const Color.fromARGB(255, 236, 232, 232)
+                            : Colors.grey.withOpacity(0.2),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -104,7 +109,7 @@ class _BMiScreen extends State<BMiScreen> {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.grey.withOpacity(0.4)),
+                    color: Colors.grey.withOpacity(0.5)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -163,7 +168,7 @@ class _BMiScreen extends State<BMiScreen> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Colors.grey.withOpacity(0.4),
+                        color: Colors.grey.withOpacity(0.5),
                       ),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -183,6 +188,7 @@ class _BMiScreen extends State<BMiScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 FloatingActionButton(
+                                  heroTag: '1',
                                   mini: true,
                                   onPressed: () {
                                     setState(() {
@@ -198,6 +204,7 @@ class _BMiScreen extends State<BMiScreen> {
                                   ),
                                 ),
                                 FloatingActionButton(
+                                  heroTag: '2',
                                   mini: true,
                                   onPressed: () {
                                     setState(() {
@@ -205,7 +212,7 @@ class _BMiScreen extends State<BMiScreen> {
                                     });
                                   },
                                   backgroundColor: Colors.black,
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.add,
                                     size: 30,
                                   ),
@@ -215,26 +222,26 @@ class _BMiScreen extends State<BMiScreen> {
                           ]),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Colors.grey.withOpacity(0.4),
+                        color: Colors.grey.withOpacity(0.5),
                       ),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
+                            const Text(
                               "AGE",
                               style: TextStyle(
                                 fontSize: 20,
                               ),
                             ),
                             Text(age.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 40,
                                   fontWeight: FontWeight.w900,
                                 )),
@@ -242,6 +249,7 @@ class _BMiScreen extends State<BMiScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 FloatingActionButton(
+                                  heroTag: '3',
                                   mini: true,
                                   onPressed: () {
                                     setState(() {
@@ -257,6 +265,7 @@ class _BMiScreen extends State<BMiScreen> {
                                   ),
                                 ),
                                 FloatingActionButton(
+                                  heroTag: '4',
                                   mini: true,
                                   onPressed: () {
                                     setState(() {
@@ -280,12 +289,26 @@ class _BMiScreen extends State<BMiScreen> {
           ),
           Container(
             height: 50,
-            color: Color.fromARGB(255, 189, 94, 110),
+            color: const Color.fromARGB(255, 189, 94, 110),
             width: double.infinity,
             child: MaterialButton(
-              onPressed: () {},
-              child: const Text("Calculate",
-                  style: TextStyle(color: Colors.white)),
+              onPressed: () {
+                var result = weight / pow(height / 200, 2);
+                result.round();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => BMIResultScreen(
+                            age: age,
+                            gender: (isMale ? 'Male' : 'female'),
+                            result: result.toInt()))));
+              },
+              child: Container(
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(60)),
+                child: const Text("Calculate",
+                    style: TextStyle(color: Colors.white, fontSize: 25)),
+              ),
             ),
           ),
         ],
