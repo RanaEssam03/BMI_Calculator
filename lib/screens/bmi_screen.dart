@@ -6,10 +6,12 @@ class BMiScreen extends StatefulWidget {
 }
 
 class _BMiScreen extends State<BMiScreen> {
+  bool isMale = true;
+  double height = 180;
+  var weight = 60;
+  var age = 25;
   @override
   Widget build(BuildContext context) {
-    var weight = 60;
-    var age = 25;
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 15, 47, 72),
       appBar: AppBar(
@@ -23,26 +25,35 @@ class _BMiScreen extends State<BMiScreen> {
               padding: const EdgeInsets.all(20.0),
               child: Row(children: [
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.grey,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: [
-                        const Icon(
-                          Icons.male,
-                          size: 70.0,
-                        ),
-                        // ignore: prefer_const_constructors
-                        Text("MALE",
-                            style: const TextStyle(
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.bold,
-                            ))
-                      ],
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isMale = true;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: isMale
+                            ? Color.fromARGB(255, 236, 232, 232)
+                            : Colors.grey.withOpacity(0.4),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          const Icon(
+                            Icons.male,
+                            size: 100.0,
+                          ),
+                          // ignore: prefer_const_constructors
+                          Text("MALE",
+                              style: const TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ))
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -50,26 +61,35 @@ class _BMiScreen extends State<BMiScreen> {
                   width: 20,
                 ),
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.grey,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: [
-                        const Icon(
-                          Icons.female,
-                          size: 70.0,
-                        ),
-                        // ignore: prefer_const_constructors
-                        Text("FEMALE",
-                            style: const TextStyle(
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.bold,
-                            ))
-                      ],
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isMale = false;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: !isMale
+                            ? Color.fromARGB(255, 236, 232, 232)
+                            : Colors.grey.withOpacity(0.4),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          const Icon(
+                            Icons.female,
+                            size: 100.0,
+                          ),
+                          // ignore: prefer_const_constructors
+                          Text("FEMALE",
+                              style: const TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ))
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -84,7 +104,7 @@ class _BMiScreen extends State<BMiScreen> {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.grey),
+                    color: Colors.grey.withOpacity(0.4)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -99,8 +119,8 @@ class _BMiScreen extends State<BMiScreen> {
                       textBaseline: TextBaseline.alphabetic,
                       // ignore: prefer_const_literals_to_create_immutables
                       children: [
-                        const Text("180",
-                            style: TextStyle(
+                        Text(height.round().toString(),
+                            style: const TextStyle(
                               fontSize: 40.0,
                               fontWeight: FontWeight.w900,
                             )),
@@ -116,13 +136,16 @@ class _BMiScreen extends State<BMiScreen> {
                       ],
                     ),
                     Slider(
-                      activeColor: Colors.black,
-                      thumbColor: Colors.white,
-                      value: 120.0,
+                      inactiveColor: Colors.black,
+                      activeColor: Colors.white,
+                      thumbColor: const Color.fromARGB(255, 189, 94, 110),
+                      value: height,
                       max: 220.0,
                       min: 80.0,
                       onChanged: (value) {
-                        print(value);
+                        setState(() {
+                          height = value;
+                        });
                       },
                     ),
                   ],
@@ -140,19 +163,19 @@ class _BMiScreen extends State<BMiScreen> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Colors.grey,
+                        color: Colors.grey.withOpacity(0.4),
                       ),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
+                            const Text(
                               "Weight",
                               style: TextStyle(
                                 fontSize: 20,
                               ),
                             ),
                             Text(weight.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 40,
                                   fontWeight: FontWeight.w900,
                                 )),
@@ -163,11 +186,13 @@ class _BMiScreen extends State<BMiScreen> {
                                   mini: true,
                                   onPressed: () {
                                     setState(() {
-                                      weight = weight - 1;
+                                      if (weight > 0) {
+                                        weight--;
+                                      }
                                     });
                                   },
                                   backgroundColor: Colors.black,
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.remove,
                                     size: 30,
                                   ),
@@ -176,7 +201,7 @@ class _BMiScreen extends State<BMiScreen> {
                                   mini: true,
                                   onPressed: () {
                                     setState(() {
-                                      weight = weight + 1;
+                                      weight++;
                                     });
                                   },
                                   backgroundColor: Colors.black,
@@ -197,7 +222,7 @@ class _BMiScreen extends State<BMiScreen> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Colors.grey,
+                        color: Colors.grey.withOpacity(0.4),
                       ),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -220,11 +245,13 @@ class _BMiScreen extends State<BMiScreen> {
                                   mini: true,
                                   onPressed: () {
                                     setState(() {
-                                      age = age - 1;
+                                      if (age > 0) {
+                                        age--;
+                                      }
                                     });
                                   },
                                   backgroundColor: Colors.black,
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.remove,
                                     size: 30,
                                   ),
@@ -233,11 +260,11 @@ class _BMiScreen extends State<BMiScreen> {
                                   mini: true,
                                   onPressed: () {
                                     setState(() {
-                                      weight = weight + 1;
+                                      age++;
                                     });
                                   },
                                   backgroundColor: Colors.black,
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.add,
                                     size: 30,
                                   ),
@@ -253,7 +280,7 @@ class _BMiScreen extends State<BMiScreen> {
           ),
           Container(
             height: 50,
-            color: Colors.black,
+            color: Color.fromARGB(255, 189, 94, 110),
             width: double.infinity,
             child: MaterialButton(
               onPressed: () {},
