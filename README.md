@@ -1,4 +1,3 @@
-Sure, I can help you with that! Here's an example README file for a BMI calculator app built using Flutter:
 
 # BMI Calculator App
 
